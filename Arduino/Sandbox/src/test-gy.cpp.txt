@@ -1,0 +1,71 @@
+
+#include <Arduino.h>
+#include <Wire.h>
+//#include <Adafruit_HMC5883_U.h>
+
+
+#define ADDR 0x1E
+
+
+void read1() {
+  delay(70);
+  uint8_t b = Wire.read();
+  if (b<0x10) Serial.print("0");
+  Serial.print(b, HEX);
+  Serial.print(" ");
+}
+
+void readN(int n) {
+  for (int i=0; i<n; ++i) {
+    read1();
+  }
+  Serial.println();
+}
+
+void request(int r, int n) {
+  Wire.beginTransmission(ADDR); 
+  Wire.write(r); 
+  Wire.endTransmission(); 
+  Wire.requestFrom(ADDR, n); 
+  while (Wire.available() < n);
+  readN(n);
+}
+
+void write(int r, int data) {
+  Wire.beginTransmission(ADDR);
+  Wire.write(r);
+  delay(70);
+  Wire.write(data);
+  Wire.endTransmission();
+}
+
+void setup() {
+  Serial.begin(9600);
+  while (!Serial) { }
+
+  Wire.begin();
+
+  Serial.println("Reading ID registers..."); 
+  request(10,3);
+  write(0,0x70);
+  write(1,0x20);
+  write(2,3);
+  write(2,0);
+  delay(70);
+  write(2,0);
+
+  Serial.println("HMC5883L ready");
+}
+
+int n=6;
+int r=3;
+
+void loop() {
+
+  //Serial.print(r);
+  request(r,10);
+
+  //if (!--n) { n=6; if (++r>9) r=2; }
+
+  //delay(100);
+}

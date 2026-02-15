@@ -1,0 +1,101 @@
+
+#include <Arduino.h>
+
+
+#include <Arduino.h>
+#include <Wire.h>
+//#include <Adafruit_HMC5883_U.h>
+
+
+#define ADDR 0x1E
+
+
+void read1() {
+  delay(70);
+  uint8_t b = Wire.read();
+  if (b<0x10) Serial.print("0");
+  Serial.print(b, HEX);
+  Serial.print(" ");
+}
+
+void readN(int n) {
+  for (int i=0; i<n; ++i) {
+    read1();
+  }
+  Serial.println();
+}
+
+void request(int r, int n) {
+  Wire.beginTransmission(ADDR); 
+  Wire.write(r); 
+  Wire.endTransmission(); 
+  Wire.requestFrom(ADDR, n); 
+  while (Wire.available() < n);
+  readN(n);
+}
+
+void write(int r, int data) {
+  Wire.beginTransmission(ADDR);
+  Wire.write(r);
+  delay(70);
+  Wire.write(data);
+  Wire.endTransmission();
+}
+
+void setup() {
+  Serial.begin(9600);
+  while (!Serial) { }
+
+  Wire.begin();
+
+  Serial.println("Reading ID registers..."); 
+  request(10,3);
+  write(0,0x70);
+  write(1,0x20);
+  write(2,3);
+  write(2,0);
+  delay(70);
+  write(2,0);
+
+  Serial.println("HMC5883L ready");
+}
+
+int n=6;
+int r=3;
+
+void loop() {
+
+    // Read 16 bytes starting at 0x03
+    Wire.beginTransmission(0x1E);
+    Wire.write(0x03);
+    Wire.endTransmission();
+
+    Wire.requestFrom(0x1E, 16);
+
+    if (Wire.available() == 16) {
+        uint8_t b[16];
+        for (int i = 0; i < 16; i++) {
+            delay(70);
+            b[i] = Wire.read();
+        }
+
+        Serial.print("Bytes: ");
+        for (int i = 0; i < 16; i++) {
+            //Serial.print("0x");
+            if (b[i] < 0x10) Serial.print("0");
+            Serial.print(b[i], HEX);
+            Serial.print(" ");
+        }
+        Serial.println();
+
+        // Assemble axes using your discovered layout
+        int16_t x = (b[0] << 8) | b[1];
+        int16_t y = (b[4] << 8) | b[5];
+        int16_t z = (b[6] << 8) | b[7];
+
+        // Serial.print("X: "); Serial.print(x);
+        // Serial.print("  Y: "); Serial.print(y);
+        // Serial.print("  Z: "); Serial.println(z);
+    }
+    delay(100);
+}

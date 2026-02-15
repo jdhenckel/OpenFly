@@ -1,0 +1,46 @@
+#include <Arduino.h>
+#include "Light.h"
+
+
+
+void print2(char*x,int y) {
+  Serial.print(x); Serial.println(y);
+}
+
+
+//=================== GLOBALS =================================
+Light led(10);
+int BUZZ=5;
+int POT=A2;
+//========================================
+void setup() {
+  led.blink(100);
+  pinMode(POT,INPUT);
+  delay(4000);
+}
+
+unsigned int scale[] = {440,494,554,587,660,740,831};
+unsigned int i=0;
+unsigned int j=1;
+//========================================
+
+void loop1() {
+    int pot = analogRead(POT);
+    Serial.println(pot);
+    delay(50);
+}
+
+void loop() {
+  led.update();
+  Serial.print(i);
+  Serial.print(" ");
+  Serial.print(j*scale[i]/4);
+  
+  Serial.print(" ");
+  Serial.println(j);
+  tone(BUZZ, j*scale[i]/4,900);
+  if (++i>6) {i = 0;
+  j*=2; if (j>32) j=1; }
+  delay(100);
+}
+

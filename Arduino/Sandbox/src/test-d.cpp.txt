@@ -1,0 +1,52 @@
+#include <Arduino.h>
+#include <U8g2lib.h>
+#include "Light.h"
+
+
+extern unsigned int __heap_start, *__brkval;
+
+int freeRam() {
+  int v;
+  return (int)&v - (__brkval == 0 ? (int)&__heap_start : (int)__brkval);
+}
+void print2(char*x,int y) {
+  Serial.print(x); Serial.println(y);
+}
+
+
+//=================== GLOBALS =================================
+Light a(10);
+char buf[40];
+U8G2_SSD1309_128X64_NONAME0_F_HW_I2C u8g2(U8G2_R0, 4);
+
+//========================================
+void setup() {
+  a.blink(100);
+  u8g2.begin();
+}
+
+//========================================
+void loop() {
+  a.update();
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_fub17_tr    );
+
+  u8g2.drawStr(0, 20, "Hello John");
+
+  dtostrf(random(700)/7.53f-20,7,4,buf);
+  u8g2.drawStr(0, 40, buf);
+
+  u8g2.setFont(u8g2_font_luRS08_tr );
+
+  u8g2.drawHLine(0,42,128);
+  u8g2.drawStr(0, 52, buf);
+  u8g2.drawStr(64, 52, buf);
+
+  u8g2.drawHLine(0,53,128);
+  u8g2.drawStr(0, 63, buf);
+  u8g2.drawStr(64, 63, buf);
+
+  u8g2.sendBuffer();
+  delay(1000);
+}
+

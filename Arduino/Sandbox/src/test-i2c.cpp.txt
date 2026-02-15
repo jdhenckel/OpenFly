@@ -1,0 +1,27 @@
+#include <Arduino.h>
+#include <Wire.h>
+
+void setup() {
+  //Serial.begin(115200);
+  while (!Serial);
+  Wire.begin();   // SDA/SCL defaults for your board
+
+  Serial.println("I2C device poller ready");
+}
+
+void loop() {
+  Serial.println("Scanning...");
+
+  for (uint8_t addr = 1; addr < 127; addr++) {
+    Wire.beginTransmission(addr);
+    uint8_t result = Wire.endTransmission();
+
+    if (result == 0) {
+      Serial.print("Found device at 0x");
+      Serial.println(addr, HEX);
+    }
+  }
+
+  Serial.println("Done\n");
+  delay(2000);
+}

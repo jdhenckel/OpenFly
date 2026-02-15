@@ -1,0 +1,39 @@
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BMP3XX.h>
+
+Adafruit_BMP3XX bmp;
+
+// Set your sea‑level pressure (hPa)
+#define SEALEVEL_HPA 1013.25
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial) {}
+
+  if (!bmp.begin_I2C()) {
+    Serial.println("BMP390 not found");
+    while (1);
+  }
+
+  // Recommended altimeter settings
+  bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_8X);
+  bmp.setPressureOversampling(BMP3_OVERSAMPLING_16X);
+  bmp.setIIRFilterCoeff(BMP3_IIR_FILTER_COEFF_3);
+  bmp.setOutputDataRate(BMP3_ODR_50_HZ);   // 50 Hz = fast + stable
+}
+
+void loop() {
+  if (bmp.performReading()) {
+    float pressure_hPa = bmp.pressure / 100.0;
+    float altitude_m   = bmp.readAltitude(SEALEVEL_HPA);
+
+    Serial.print("Pressure: ");
+    Serial.print(pressure_hPa);
+    Serial.print(" hPa   Altitude: ");
+    Serial.print(altitude_m);
+    Serial.println(" m");
+  }
+
+  // No delay needed — sensor ODR controls timing
+}
