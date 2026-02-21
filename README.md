@@ -32,9 +32,9 @@ You will also need the following tools
 
 ## Schematic and PCB wire plan
 
-![Schematic]("Circuits/EasyEDA/Schematic_Altimeter1_2026-02-15.png")
+![Schematic](Circuits/EasyEDA/Schematic_Altimeter1_2026-02-15.png)
 
-![PCB wire layout]("Circuits/EasyEDA/PCB-2026-02-15 160922.png")
+![PCB wire layout](Circuits/EasyEDA/PCB-2026-02-15-160922.png)
 
 
 ## Arduino
