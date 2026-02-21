@@ -27,8 +27,20 @@ For each component, you should make sure the PINS match the schematic. however n
 
 You will also need the following tools
 
-- soldering iron, and practice using it
-- laptop, with VSCode installed, and Platformio extension.
+- soldering iron, and practice using it.  This is a [good tutorial!](https://www.youtube.com/watch?v=vAx89WhpZ3k)
+- laptop, with VSCode installed, and [Platformio](https://docs.platformio.org/en/latest/integration/ide/vscode.html) extension (both are free).
+
+## COST
+
+The significant items are:
+
+- $30 ProMicro (AtMega32u4)
+- $15 OLED display
+- $15 BMP 390
+- $8  battery
+- $3  GY-271
+
+All the other items are less than $1 each.  **TOTAL PARTS: $80** approx.
 
 ## Schematic and PCB wire plan
 
