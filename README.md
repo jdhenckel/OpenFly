@@ -36,6 +36,12 @@ You will also need the following tools
 
 ![PCB wire layout](Circuits/EasyEDA/PCB-2026-02-15-160922.png)
 
+## My first prototype, using perf board
+
+![mockup-front](Circuits/EasyEDA/mockup-front.png)
+
+![mockup-back](Circuits/EasyEDA/mockup-back.png)
+
 
 ## Arduino
 
