@@ -30,6 +30,15 @@ You will also need the following tools
 - soldering iron, and practice using it
 - laptop, with VSCode installed, and Platformio extension.
 
+## Schematic and PCB wire plan
+
+![Schematic](Circuits/EasyEDA/Schematic_Altimeter1_2026-02-15.png)
+
+![PCB wire layout](Circuits/EasyEDA/PCB-2026-02-15 160922.png)
+
+
 ## Arduino
 
 This is all the code. Just plug in your promicro and use "Platformio - Upload".
+
+TODO -- I'll finish this documentation later.
