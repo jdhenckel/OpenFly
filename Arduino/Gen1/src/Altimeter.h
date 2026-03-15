@@ -10,13 +10,13 @@ public:
     float seaLevel = 1013.25;   // units hPa.
     float pressure;             // units hPa.
     float meters;
-    float celcius;
+    float celsius;
 
     // Methods
     void begin_I2C();
     void update();
     float feet() { return meters * 3.28084; }
-    float farenheit() { return celcius * 9.0 / 5.0 + 32.0; }
+    float farenheit() { return celsius * 9.0 / 5.0 + 32.0; }
 };
 
 void Altimeter::begin_I2C() {    
@@ -31,6 +31,6 @@ void Altimeter::update() {
     if (bmp.performReading()) {
         pressure = bmp.readPressure() / 100.0;
         meters = bmp.readAltitude(seaLevel);
-        celcius = bmp.readTemperature();
+        celsius = bmp.readTemperature();
     }
 }
